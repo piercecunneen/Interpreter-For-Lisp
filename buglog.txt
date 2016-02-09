@@ -1,0 +1,17 @@
+Started keeping track on Tuesday, Feb 9th
+State of Interpreter: Have defined arithmetic, variable declarations, and function definitions/calls into the language
+
+1. scope error
+	Problem: Local scope variables were remaining when returning to global scope
+	Source of Error: assigning env variable directly to my local_env, so both variables pointed to the same object in memory. Thus a change in local_env resulted in a change in env. (line 210)
+	Solution: local_env = env.copy() (line 210)
+
+2. scope error
+	Problem: when checking if a variable was a function, I was checking in a global scope where the function name didn't exist
+	Source of Error: using wrong env in isFunction() (line 123)
+	Solution: passing my env into isFunction
+	Notes: This might have a performance tradeoff, and I'm not sure if this error would only occur due to the test environment or if it would occur normally. Will try and think of a better way to deal with scope error
+
+3. interpretation of functions/arguments
+	Problem: When passing a variable assigned to a function def into another function, interpreter failed
+	Solution: How I interpreted functions and arguments was wrong. If an argument is the first element in a list, I have to interpret the argument and then re-interpret the entire list. This then led to me changing how I check to see if the first token of an argument is a function (since I know would be checking to see whether a function was a function rather than if a variable is a function (variable will always be interpreted first into function).
