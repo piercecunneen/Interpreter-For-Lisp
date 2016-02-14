@@ -250,6 +250,20 @@ def checkFunctions():
     lisp_tokens = read_tokens(create_tokens(lisp))
     assert(interp(lisp_tokens, env) == 14)
 
+    # have take_a_function take both function and a function call as arguments
+    lisp = "(take_a_function bar (foo 3))"
+    lisp_tokens = read_tokens(create_tokens(lisp))
+    assert(interp(lisp_tokens, env) == 17)
+
+    # test simple recursion
+    lisp = "(defun fib (n) (if (eq n 0) 1 (* n (fib (- n 1) ) ) ))"
+    interp(read_tokens(create_tokens(lisp)), env)
+    lisp = "(fib 5)"
+    lisp_tokens = read_tokens(create_tokens(lisp))
+    assert(interp(lisp_tokens, env) == 120)
+
+
+
 
 
 
